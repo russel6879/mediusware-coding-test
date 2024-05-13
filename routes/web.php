@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('transactions', TransactionController::class);
+Route::get('/deposit', [TransactionController::class, 'showDeposits']);
+Route::post('/deposit', [TransactionController::class, 'deposit'])->name('deposit');
+Route::get('/withdrawal', [TransactionController::class, 'showWithdrawals'])->name('withdrawal.index');
+Route::post('/withdrawal', [TransactionController::class, 'withdraw'])->name('withdrawal');
+
+
